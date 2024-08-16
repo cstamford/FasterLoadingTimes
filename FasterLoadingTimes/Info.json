@@ -1,0 +1,12 @@
+﻿{
+  "Id": "FasterLoadingTimes",
+  "DisplayName": "Faster Loading Times",
+  "Author": "",
+  "Version": "1.0.0",
+  "ManagerVersion": "0.25.0",
+  "Requirements": [],
+  "AssemblyName": "FasterLoadingTimes.dll",
+  "EntryMethod": "FasterLoadingTimes.Main.Load",
+  "HomePage": "",
+  "Repository": ""
+}
