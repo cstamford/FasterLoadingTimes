@@ -61,8 +61,9 @@ public static class SceneLoaderPatches {
     //
     // If you're updating this method for future patches, check SceneLoader.MatchStateWithSceneCoroutine.
     // This function should be a near 1:1 with the exception of explicit types and anything after END ORIGINAL and before RESUME ORIGINAL.
+    //
+    // Why not use a transpiler? This will take five minutes to update and a transpiler-gone-wrong might take hours (and a headache).
     private static IEnumerator MatchStateWithSceneCoroutineImpl(SceneLoader sceneLoader, SceneEntitiesState state) {
-        Main.Log.Log($"MatchStateWithSceneCoroutineImpl invoked");
         Scene scene = SceneManager.GetSceneByName(state.SceneName);
 
         if (!scene.isLoaded) {
