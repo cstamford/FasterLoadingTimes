@@ -2,6 +2,8 @@
 using Kingmaker;
 using Kingmaker.Blueprints.Area;
 using Kingmaker.EntitySystem.Persistence;
+using Kingmaker.Utility.CodeTimer;
+using Owlcat.Runtime.Core.Logging;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -64,5 +66,19 @@ public static class LoadTimeline_Patches {
     [HarmonyPatch(typeof(Game), nameof(Game.LoadArea), [typeof(BlueprintArea), typeof(BlueprintAreaEnterPoint), typeof(AutoSaveMode), typeof(SaveInfo), typeof(Action)])]
     private static void Game__LoadArea() {
         LoadTimeline.LoadingProcess_ClearEvents();
+    }
+
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(CodeTimer), nameof(CodeTimer.New), [typeof(LogChannel), typeof(string)])]
+    private static bool CodeTimer__New(LogChannel channel, string text, ref CodeTimer? __result) {
+        __result = new(Stopwatch.StartNew(), text, channel);
+        LoadTimeline.LoadingProcess_PushEvent(text);
+        return false;
+    }
+
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(CodeTimer), nameof(CodeTimer.Dispose))]
+    private static void CodeTimer__Dispose() {
+        LoadTimeline.LoadingProcess_PopEvent();
     }
 }
