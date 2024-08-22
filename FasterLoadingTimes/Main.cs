@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityModManagerNet;
 
@@ -27,6 +28,7 @@ public static class Main {
 #if DEBUG
         modEntry.OnUnload = OnUnload;
 #endif
+        modEntry.OnGUI = OnGUI;
 
         HarmonyInstance = new Harmony(modEntry.Info.Id);
         HarmonyInstance.PatchAll(Assembly.GetExecutingAssembly());
@@ -39,6 +41,10 @@ public static class Main {
         return true;
     }
 #endif
+
+    public static void OnGUI(UnityModManager.ModEntry mod) {
+        LoadTimeline.OnGUI();
+    }
 }
 
 [HarmonyPatch(typeof(SceneLoader))] // Kingmaker.EntitySystem.Persistence.Scenes.SceneLoader
